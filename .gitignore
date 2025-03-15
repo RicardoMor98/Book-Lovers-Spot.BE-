@@ -1,9 +1,38 @@
-core.Microsoft*
-core.mongo*
-core.python*
+# Ignore the env.py file (stores sensitive environment variables)
 env.py
+
+# Ignore virtual environments (if using venv)
+venv/
+env/
+
+# Ignore database files (if using SQLite)
+db.sqlite3
+
+# Ignore compiled Python files
 __pycache__/
 *.py[cod]
-node_modules/
-.github/
+
+# Ignore logs and temporary files
+*.log
+*.tmp
+
+# Ignore media uploads (if storing locally)
+media/
+
+# Ignore static files (if collected during deployment)
+staticfiles/
+
+# Ignore VS Code settings (if using VS Code)
+.vscode/
+
+# Ignore Cloudinary config files
 cloudinary_python.txt
+
+# Ignore Node modules (if using Node.js for frontend)
+node_modules/
+
+# Ignore GitHub workflows (optional)
+.github/
+
+# Ignore system files (Mac & Linux)
+.DS_Store

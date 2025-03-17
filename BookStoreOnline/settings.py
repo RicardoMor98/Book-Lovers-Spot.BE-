@@ -10,6 +10,13 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
+
+import os
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
+
 from pathlib import Path
 
 
@@ -23,38 +30,65 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-a$)j3a+x8ekygno(@#)1vh3*k(*4c@817gp4vkmmvmf_qz)0tv'
 
+
+
+
+CLOUDINARY_STORAGE = {
+    "CLOUD_NAME": "dqblj4qow",
+    "API_KEY": "934671791378734",
+    "API_SECRET": "qeXkqbLS-XK9sbw_ZwuPF59hQbk",
+}
+
+# Use the credentials in the Cloudinary configuration
+cloudinary.config(
+    cloud_name=CLOUDINARY_STORAGE["CLOUD_NAME"],
+    api_key=CLOUDINARY_STORAGE["API_KEY"],
+    api_secret=CLOUDINARY_STORAGE["API_SECRET"],
+)
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+CORS_ORIGIN_WHITELIST = [
+'https://ricardomor9-bookloverss-ipld6p1s217.ws-eu118.gitpod.io:8000',
+'https://ricardomor9-bookloverss-al869cj9kmu.ws-eu118.gitpod.io:8080'
+]
 
-CORS_ALLOW_CREDENTIALS = True
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOWED_ORIGINS = [
-    "https://8080-ricardomor9-bookloverss-al869cj9kmu.ws-us118.gitpod.io",
     "https://8000-ricardomor9-bookloverss-ipld6p1s217.ws-us118.gitpod.io",
+    "https://8080-ricardomor9-bookloverss-al869cj9kmu.ws-eu118.gitpod.io"
 ]
+
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://8080-ricardomor9-bookloverss-al869cj9kmu.ws-us118.gitpod.io",
     "https://8000-ricardomor9-bookloverss-ipld6p1s217.ws-us118.gitpod.io",
+    "https://8080-ricardomor9-bookloverss-al869cj9kmu.ws-eu118.gitpod.io"
 ]
 
-CORS_ALLOW_HEADERS = [
-    'content-type',
-    'authorization',
-    'x-csrftoken',
-]
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_METHODS = ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
+CORS_ALLOW_HEADERS = ["*"]
+DEBUG = True
 
-CORS_ALLOW_METHODS = [
-    'GET',
-    'POST',
-    'OPTIONS',
-]
 
+
+ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "localhost",
+    "8000-ricardomor9-bookloverss-ipld6p1s217.ws-eu118.gitpod.io",
+    "8080-ricardomor9-bookloverss-al869cj9kmu.ws-eu118.gitpod.io",
+    "8000-ricardomor9-bookloverss-ipld6p1s217.ws-us118.gitpod.io",
+    "8080-ricardomor9-bookloverss-al869cj9kmu.ws-us118.gitpod.io",
+]
 
 # Application definition
 
 INSTALLED_APPS = [
+
+    "corsheaders",  
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.sessions',
@@ -63,20 +97,23 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'cloudinary_storage',  # Cloudinary storage for handling media files
     'cloudinary',  # Cloudinary library for handling images
-    'corsheaders',
+    "rest_framework",
     'api',
 ]
-ALLOWED_HOSTS = ["*"]  # Allows all hosts (use only for testing)
+
+
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'api.custom_cors_middleware.CustomCorsMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',    
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware', 
+    
 ]
 
 ROOT_URLCONF = 'BookStoreOnline.urls'

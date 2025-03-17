@@ -18,3 +18,5 @@ class JWTAuthenticationMiddleware(MiddlewareMixin):
                 return JsonResponse({"error": "Token expired"}, status=401)
             except jwt.InvalidTokenError:
                 return JsonResponse({"error": "Invalid token"}, status=401)
+
+
